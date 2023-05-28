@@ -1,5 +1,6 @@
 import { ThemeProvider } from "./context/Themes";
 import { LoaderProvider } from "./context/Preloader";
+import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Overview, Documentation, ChangeLog, Error } from "./pages/supports";
 import {
@@ -38,9 +39,13 @@ import ProductsView from "./pages/master/ProductsView";
 import OrderReceipt from "./pages/master/OrderReceipt";
 import ProductDetails from "./pages/master/ProductDetails";
 import OrderNotification from "./pages/master/OrderNotification";
+import ConfirmOrdersList from "./pages/master/ConfirmOrdersList"
+import { store } from "./redux/storeConfig/store";
+
 
 export default function App() {
   return (
+    <Provider store={store}>
     <ThemeProvider>
       <LoaderProvider>
         <BrowserRouter>
@@ -72,6 +77,7 @@ export default function App() {
             <Route path="/notification" element={<Notification />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/blank-page" element={<BlankPage />} />
+            <Route path="/confirm-orders" element={<ConfirmOrdersList />} />
 {/* git */}
             {/* Blocks Pages */}
             <Route path="/headings" element={<Headings />} />
@@ -92,5 +98,6 @@ export default function App() {
         </BrowserRouter>
       </LoaderProvider>
     </ThemeProvider>
+    </Provider>
   );
 }

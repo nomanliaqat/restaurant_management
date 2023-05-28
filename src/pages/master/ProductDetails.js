@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { CardLayout } from "../../components/cards";
@@ -40,9 +40,17 @@ export default function ProductDetails() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const handleShowModal = () => {
+  const handleShowModal = (product) => {
     setShowModal(true);
+    const findProduct = data.product.tbody
+    .find((item) => {
+      return item.id == product.id;
+    })
+debugger  
+setSelectedProduct(findProduct)
   };
 
   const handleCloseModal = () => {
@@ -54,11 +62,12 @@ export default function ProductDetails() {
     // do something
     setShowModal(false);
   };
-  const [selectedItem, setSelectedItem] = useState("");
+
   // const handleShowAdd = () => setShowAdd(true);
   const location = useLocation();
   // const service = location.state;
   const { id, service } = location.state;
+
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const handleClick = (value) => {
@@ -168,7 +177,7 @@ export default function ProductDetails() {
                               onClick={() => setSelectedItem(item.heading)}
                             >
                               <Box
-                                onClick={handleShowModal}
+                                onClick={()=> handleShowModal(item)}
                                 className={"imgCard"}
                               >
                                 <ImageCards
@@ -319,7 +328,7 @@ export default function ProductDetails() {
                                         </button>
                                       </Box>
                                       <Col md={12}>
-                                        <Button className="w-100 mt-10">
+                                        <Button className="w-100 mt-10" onClick={handleCloseModal}>
                                           {" "}
                                           <FontAwesomeIcon
                                             icon={faCheck}

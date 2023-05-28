@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import {
   LanguageDropdown,
   WidgetDropdown,
@@ -12,7 +12,8 @@ import { Logo } from "../components";
 import data from "../data/master/header.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import {} from '../redux/actions/orders/orderActions'
 import {
   faBars,
   faBell,
@@ -31,6 +32,7 @@ import CusModel from "../components/popupsModel/CusModel";
 import cpButtonsData from "../data/ControlPannelButtonData";
 import ControlPanel from "../pages/master/ControlPanel";
 export default function Header() {
+  const dispatch = useDispatch();
   const row1 = cpButtonsData[0];
   const row2 = cpButtonsData[1];
   const row3 = cpButtonsData[2];

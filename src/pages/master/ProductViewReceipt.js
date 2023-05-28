@@ -8,14 +8,17 @@ import {
   faClock,
   faAngleDown,
   faPlus,
+  faMinus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { Text } from "../../components/elements";
 import CheckoutModel from "../../components/popupsModel/CheckoutModel";
+import LabelFieldT from "../../components/fields/LabelFieldT";
 export default function ProductViewReceipt({ id }) {
-  // const [showPayment, setShowPayment] = useState(false);
-  //   const handleClosePayment = () => setShowPayment(false);
-  //   const handleShowPayment = () => setShowPayment(true);
+  const [inputValue, setInputValue] = useState(1);
+  const [showPayment, setShowPayment] = useState(false);
+  const handleClosePayment = () => setShowPayment(false);
+  const handleShowPayment = () => setShowPayment(true);
   return (
     <div>
       <CardLayout>
@@ -42,7 +45,28 @@ export default function ProductViewReceipt({ id }) {
                     <Text as="span">Total : 34.01 $ </Text>
                   </Col>
                   <Col md={4} className="text-end cusur-p">
-                    <FontAwesomeIcon icon={faPlus} />
+                    <Box className={"Add-sub-quan d-flex"}>
+                      <Button
+                        // className="Add-sub-quan-minus"
+                        size="sm"
+                        disabled={inputValue < 2 ? true : false}
+                        onClick={() => setInputValue(+inputValue - 1)}
+                      >
+                        <FontAwesomeIcon icon={faMinus} />{" "}
+                      </Button>
+                      <LabelFieldT
+                        fieldSize={"w100"}
+                        type={"text"}
+                        placeholder={inputValue}
+                      />
+                      <Button
+                        // className="Add-sub-quan-minus"
+                        onClick={() => setInputValue(+inputValue + 1)}
+                        size="sm"
+                      >
+                        <FontAwesomeIcon icon={faPlus} />{" "}
+                      </Button>
+                    </Box>
                   </Col>
                 </Row>
               </CardLayout>
@@ -60,7 +84,11 @@ export default function ProductViewReceipt({ id }) {
           </Col>
           <Col md={12}>
             <Button className="w-100"> Delete receipt </Button>
-            {/* <CheckoutModel show={showPayment} handleClosePayment={handleClosePayment} handleShowPayment={handleClosePayment}/> */}
+            <CheckoutModel
+              show={showPayment}
+              handleClosePayment={handleClosePayment}
+              handleShowPayment={handleClosePayment}
+            />
           </Col>
         </Row>
       </CardLayout>
