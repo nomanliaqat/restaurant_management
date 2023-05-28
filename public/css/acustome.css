@@ -1,0 +1,22 @@
+.search-product-model .modal-content {
+    width: 700px !important;
+  }
+  .search-product-model .modal-header {
+    padding: 10px;
+    margin-bottom: 5px !;
+  
+  }
+  .search-product-model .modal-header .modal-title 
+  {
+    font-size: 18px;
+  
+  }
+  .search-product-model .modal-footer{
+    padding: 10px;
+    margin-top: 5px !important;
+    justify-content:end;
+  }
+  .search-product-model img{
+    width: 100%;
+    height: 200px;
+  }
