@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { CardLayout } from "../../components/cards";
@@ -29,8 +29,12 @@ import ProductViewReceipt from "./ProductViewReceipt";
 import { MultipleMenu } from "../../components/sidebar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Pagination } from "../../components";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../redux/actions/product/productActions";
+import { getOrders } from "../../redux/actions/orders/orderActions";
 
 export default function ProductsView() {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,6 +42,19 @@ export default function ProductsView() {
   const location = useLocation();
   const { service } = location.state;
   const navigate = useNavigate();
+
+  const { productsList } = useSelector(
+    (state) => state.products.productReducer
+  );
+  const { ordersList } = useSelector(
+    (state) => state.orders.orderReducer
+  );
+  
+
+  useEffect(() => {
+    dispatch(getProducts());
+    dispatch(getOrders());
+  }, []);
 
   return (
     <div>
@@ -54,7 +71,7 @@ export default function ProductsView() {
             <Row>
               <Col md={4}>
                 <Row>
-                  <ProductViewReceipt id={service} />
+                  <ProductViewReceipt id={service} products = {JSON.parse(localStorage.getItem("cart")) || []} orders={ordersList} />
                 </Row>
               </Col>
               <Col md={8}>
@@ -105,17 +122,20 @@ export default function ProductsView() {
                     </Col>
                     <Col md={12}>
                       <Box className={"product-img-card"}>
-                        {items?.map((item, i) => (
+                        {productsList?.map((item, i) => (
                           <Link
                             to="/Product-details"
-                            state={{ id: `${item.id}`, service: { service } }}
+                            state={{
+                              id: `${item.product_id}`,
+                              service: { service },
+                            }}
                             className={"imgCard"}
                             key={i}
                           >
                             <ImageCards
-                              Imgsrc={item.src}
-                              alt={item.alt}
-                              productTitle={item.heading}
+                              Imgsrc={item.product_image}
+                              alt={item.product_name}
+                              productTitle={item.product_name}
                             />
                           </Link>
                         ))}
