@@ -1,12 +1,17 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Row,Col,Modal ,Button} from 'react-bootstrap';
 import { Label } from '../elements';
 import { LabelField } from '../fields';
 
 export default function CheckoutModel(props) {
+    const {selectedProducts} = props;
+    const totalAmount = parseInt(selectedProducts.reduce((total, item) => total + item.product_price * item.qty,0).toFixed(2));
     
+
+    const [paymentMethod, setPaymentMethod] = useState("Cash");
+    const [receivedAmount, setReceivedAmount] = useState("")
     const handleClosePayment = () => props.handleClosePayment();
-  const handleShowPayment = () => props.handleShowPayment();
+  const handleShowPayment = () => props.handleSubmit();
     return (
         <div>
             <Modal
@@ -24,10 +29,12 @@ export default function CheckoutModel(props) {
                                 type={"text"}
                                 placeholder={"Cash"}
                                 label={"Payment method"}
+                                value={paymentMethod}
+                                onChange={(e)=> setPaymentMethod(e.target.value)}
                             />
                             <Label className={"bold cus-mt-5"}>Total</Label>
                             <h2 className="bold payment-total-h2 cus-mt-5">
-                                $346.2
+                                ${totalAmount}{" "}
                             </h2>
                         </Col>
                         <Col md={6}>
@@ -35,14 +42,16 @@ export default function CheckoutModel(props) {
                                 type={"number"}
                                 placeholder={"Received amount"}
                                 label={"Received amount"}
+                                value={receivedAmount}
+                                onChange={(e)=> setReceivedAmount(e.target.value)}
                             />
                             <Label className={"bold cus-mt-5"}>Change</Label>
                             <h2 className="bold payment-total-h2 green cus-mt-5">
-                                $0.0
+                                ${receivedAmount && parseInt(receivedAmount) > totalAmount ? (receivedAmount - totalAmount).toFixed(2) : "0.00"}
                             </h2>
                             <Label className={"bold cus-mt-5"}>Remaining</Label>
                             <h2 className="bold payment-total-h2 red cus-mt-5">
-                                $55.0
+                                ${receivedAmount && totalAmount > parseInt(receivedAmount) ?  (totalAmount - receivedAmount).toFixed(2) : "0.00"}
                             </h2>
                         </Col>
                     </Row>

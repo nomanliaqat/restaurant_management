@@ -1,5 +1,6 @@
 const initialState = {
-  orders: {},
+  ordersList: [],
+  isLoading: false,
   orderService: 'In-Store'
   
 };
@@ -9,9 +10,7 @@ export const orderReducer = (state = initialState, action) => {
     case "SET_ORDER_SERVICE":
       return { ...state, orderService: action.payload };
     case "GET_ORDERS":
-      return { ...state, orders: action.payload };
-    case "GET_ORDERS_SUCCESS":
-      return { ...state, orders: action.payload };
+      return { ...state, ordersList: action.payload, isLoading: true };
 
 
     default:

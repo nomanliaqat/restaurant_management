@@ -1,12 +1,31 @@
-import { postRequest, patchRequest, getRequest } from "../../utils/request";
+import { postRequest, getRequest } from "../../utils/request";
 
 
 export const getOrders = () => {
   return async (dispatch) => {
-    await getRequest("/")
+    await getRequest("/getorders")
       .then((result) => {
-        dispatch({ type: "GET_ORDERS_SUCCESS", payload: result });
+        result.order.sort((a, b) => b.order_id - a.order_id)
+        dispatch({ type: "GET_ORDERS", payload: result.order });
       })
       .catch((err) => console.log(err));
+  };
+};
+
+export const createOrder = (data, nevigate) => {
+  return async (dispatch) => {
+    await postRequest("/save_order", data)
+      .then((result) => {
+        localStorage.removeItem("cart");
+        dispatch(getOrders());
+        nevigate("/order-receipt")
+        // dispatch({ type: "SAVE_ORDER_SUCCESS", payload: result });
+      })
+      .catch((err) => {
+        dispatch(getOrders());
+        localStorage.removeItem("cart");
+        nevigate("/order-receipt")
+        console.log(err)
+      });
   };
 };

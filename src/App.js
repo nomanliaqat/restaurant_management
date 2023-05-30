@@ -41,8 +41,9 @@ import ProductDetails from "./pages/master/ProductDetails";
 import OrderNotification from "./pages/master/OrderNotification";
 import ConfirmOrdersList from "./pages/master/ConfirmOrdersList"
 import { store } from "./redux/storeConfig/store";
+import axios from 'axios';
 
-
+axios.defaults.baseURL = "http://idlogix.utis.pk:8089/public/api";
 export default function App() {
   return (
     <Provider store={store}>
@@ -77,7 +78,7 @@ export default function App() {
             <Route path="/notification" element={<Notification />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/blank-page" element={<BlankPage />} />
-            <Route path="/confirm-orders" element={<ConfirmOrdersList />} />
+            <Route path="/kds" element={<ConfirmOrdersList />} />
 {/* git */}
             {/* Blocks Pages */}
             <Route path="/headings" element={<Headings />} />
