@@ -7,6 +7,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { CardLayout } from "../../components/cards";
 import { getOrders } from "../../redux/actions/orders/orderActions";
 import Countdown, { zeroPad } from "react-countdown";
+import products from "../../redux/reducers/products";
 
 const ConfirmOrdersList = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,6 @@ const ConfirmOrdersList = () => {
     const filterOrders = ordersList.filter(
       (order) => getMiliSecond(order.updated_at) > 0
     );
-    debugger
     setOrders([...filterOrders]);
   }, [ordersList]);
 
@@ -73,11 +73,12 @@ const ConfirmOrdersList = () => {
                     <span style={{ fontSize: 24 }}>KITCHEN</span>
                   </Button>
                 </div>
-                <div className="mt-4">
+                {order.order_detail.map((product, i)=> (
+                <div className="mt-4" key={i}>
                   <span style={{ fontSize: 22, fontWeight: 400 }}>
-                    1 X Melted Chocolate Cake
+                    {product.qty} X {product.product.product_name}
                   </span>
-                </div>
+                </div>))}
                 <div className="mt-5 d-flex">
                   <Button className="bg-success w-75 rounded-start">
                     <span style={{ fontSize: 24 }}>READY</span>

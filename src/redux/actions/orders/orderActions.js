@@ -14,7 +14,7 @@ export const getOrders = () => {
 
 export const createOrder = (data, nevigate) => {
   return async (dispatch) => {
-    await postRequest("/save_order", data)
+    await postRequest("/createorder", data)
       .then((result) => {
         localStorage.removeItem("cart");
         dispatch(getOrders());
